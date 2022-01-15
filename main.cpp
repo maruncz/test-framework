@@ -1,3 +1,4 @@
+#include "benchmarkbasic.h"
 #include "testcasebasic.h"
 #include <algorithm>
 #include <chrono>
@@ -26,16 +27,24 @@ template<class Tp> inline void DoNotOptimize(Tp &value)
 TEST(sada, test)
 {
     std::cout << "test" << std::endl;
+    return result{true};
 }
 
 TEST(sada, test2)
 {
     std::cout << "test2" << std::endl;
+    return result{false};
+}
+
+BENCHMARK(bench, bench)
+{
+    std::this_thread::sleep_for(std::chrono::microseconds(1));
 }
 
 int main()
 {
-    testManager::getInstance().runAll();
+    //testManager::getInstance().runAllTests();
+    testManager::getInstance().runAllBenchmarks();
 
     return 0;
 }

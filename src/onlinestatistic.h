@@ -11,6 +11,8 @@ public:
 
     [[nodiscard]] double getMean() const;
     [[nodiscard]] double getVariance() const;
+    [[nodiscard]] double getStdDev() const;
+    [[nodiscard]] size_t getSamples() const;
 
 private:
     double mean{0};

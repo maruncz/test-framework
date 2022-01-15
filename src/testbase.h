@@ -1,44 +1,56 @@
 #ifndef TESTBASE_H
 #define TESTBASE_H
 
-#include "testmanager.h"
+#include "testabstract.h"
 #include <iostream>
 #include <map>
 #include <string>
 #include <utility>
 
-#define stringify_helper(s) #s
-#define stringify(s) stringify_helper(s)
-
-class testBase
+class testBase : public testAbstract
 {
 public:
+    class result
+    {
+    public:
+        explicit result(bool inOk, std::string inMsg = std::string())
+            : ok(inOk), msg(std::move(inMsg))
+        {
+        }
+
+        [[nodiscard]] bool getOk() const { return ok; }
+        [[nodiscard]] const std::string &getMsg() const { return msg; }
+
+    private:
+        const bool ok;
+        const std::string msg;
+    };
+
     testBase(std::string inTestSuite, std::string inTestCase)
-        : testSuite(std::move(inTestSuite)), testCase(std::move(inTestCase))
+        : testAbstract(std::move(inTestSuite), std::move(inTestCase))
     {
         testManager::getInstance().insertTestCase(this);
     }
 
-    virtual ~testBase() = default;
+    ~testBase() override = default;
 
-    virtual void runCase() const
+    void run() const override
     {
-        std::cout << "[" << testSuite << ", " << testCase << "] "
+        std::cout << "[" << getTestSuite() << ", " << getTestCase() << "] "
                   << "running" << std::endl;
-        run();
-        std::cout << "[" << testSuite << ", " << testCase << "] "
-                  << "finished" << std::endl;
+        auto result = runTestCase();
+        std::cout << "[" << getTestSuite() << ", " << getTestCase() << "] ";
+        if (result.getOk())
+        {
+            std::cout << "OK" << std::endl;
+        }
+        else
+        {
+            std::cout << "failed: " << result.getMsg() << std::endl;
+        }
     }
 
-    virtual void run() const = 0;
-
-    [[nodiscard]] const std::string &getTestSuite() const { return testSuite; }
-
-    [[nodiscard]] const std::string &getTestCase() const { return testCase; }
-
-private:
-    const std::string testSuite;
-    const std::string testCase;
+    [[nodiscard]] virtual result runTestCase() const = 0;
 };
 
 #endif // TESTBASE_H

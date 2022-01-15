@@ -1,6 +1,7 @@
 #include "testcasebasic.h"
 
-TEST(sata, test3)
+TEST(sada, test3)
 {
     std::cout << "test3" << std::endl;
+    return result{true};
 }

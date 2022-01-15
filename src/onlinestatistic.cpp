@@ -1,4 +1,5 @@
 #include "onlinestatistic.h"
+#include <cmath>
 
 void onlineStatistic::addSample(double sample)
 {
@@ -27,4 +28,14 @@ double onlineStatistic::getVariance() const
         return 0;
     }
     return M2n / (samples - 1);
+}
+
+double onlineStatistic::getStdDev() const
+{
+    return std::sqrt(getVariance());
+}
+
+size_t onlineStatistic::getSamples() const
+{
+    return samples;
 }

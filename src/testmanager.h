@@ -5,7 +5,7 @@
 #include <map>
 #include <string>
 
-class testBase;
+class testAbstract;
 
 // https://stackoverflow.com/a/1008289
 class testManager
@@ -13,9 +13,11 @@ class testManager
 public:
     static testManager &getInstance();
 
-    void insertTestCase(testBase const *testCase);
+    void insertTestCase(testAbstract const *testCase);
+    void insertBenchmarkCase(testAbstract const *testCase);
 
-    void runAll() const;
+    void runAllTests() const;
+    void runAllBenchmarks() const;
 
     testManager(testManager const &o) = delete;
     testManager(testManager &&o)      = delete;
@@ -26,9 +28,10 @@ public:
 private:
     testManager() = default;
 
-    using casesMap  = std::map<std::string, const testBase *>;
+    using casesMap  = std::map<std::string, const testAbstract *>;
     using suitesMap = std::map<std::string, casesMap>;
-    suitesMap map;
+    suitesMap testMap;
+    suitesMap benchmarkMap;
 };
 
 #endif // TESTMANAGER_H

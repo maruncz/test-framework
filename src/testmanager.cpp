@@ -7,19 +7,36 @@ testManager &testManager::getInstance()
     return instance;
 }
 
-void testManager::insertTestCase(const testBase *testCase)
+void testManager::insertTestCase(const testAbstract *testCase)
 {
-    map[testCase->getTestSuite()].insert(
+    testMap[testCase->getTestSuite()].insert(
         std::make_pair(testCase->getTestCase(), testCase));
 }
 
-void testManager::runAll() const
+void testManager::insertBenchmarkCase(const testAbstract *testCase)
 {
-    for (auto &suite : map)
+    benchmarkMap[testCase->getTestSuite()].insert(
+        std::make_pair(testCase->getTestCase(), testCase));
+}
+
+void testManager::runAllTests() const
+{
+    for (auto &suite : testMap)
     {
         for (auto &test : suite.second)
         {
-            test.second->runCase();
+            test.second->run();
+        }
+    }
+}
+
+void testManager::runAllBenchmarks() const
+{
+    for (auto &suite : benchmarkMap)
+    {
+        for (auto &test : suite.second)
+        {
+            test.second->run();
         }
     }
 }
