@@ -11,7 +11,7 @@ void onlineStatistic::addSample(double sample)
     {
         auto prevMean = mean;
         mean          = mean + (sample - mean) / samples;
-        M2n           = M2n + sample - prevMean * sample - mean;
+        M2n           = M2n + (sample - prevMean) * (sample - mean);
     }
 }
 

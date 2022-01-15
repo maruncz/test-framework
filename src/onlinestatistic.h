@@ -1,17 +1,16 @@
 #ifndef ONLINESTATISTIC_H
 #define ONLINESTATISTIC_H
 
-#include <cstdint>
 #include <cstddef>
+#include <cstdint>
 
 class onlineStatistic
 {
 public:
-
     void addSample(double sample);
 
-    double getMean() const;
-    double getVariance() const;
+    [[nodiscard]] double getMean() const;
+    [[nodiscard]] double getVariance() const;
 
 private:
     double mean{0};
