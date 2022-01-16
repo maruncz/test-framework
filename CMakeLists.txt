@@ -2,6 +2,7 @@ cmake_minimum_required(VERSION 3.11)
 
 project(benchmark-test LANGUAGES CXX)
 
+#set(CMAKE_INCLUDE_CURRENT_DIR ON)
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
@@ -23,4 +24,4 @@ set(SRCS
     test.cpp)
 
 add_executable(benchmark-test ${SRCS})
-target_link_libraries(benchmark-test PRIVATE test-fw)
+target_link_libraries(benchmark-test PRIVATE test-fw-tests test-fw-benchmark)
