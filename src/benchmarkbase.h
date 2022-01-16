@@ -1,6 +1,7 @@
 #ifndef BENCHMARKBASE_H
 #define BENCHMARKBASE_H
 
+#include "benchmarksettings.h"
 #include "onlinestatistic.h"
 #include "testabstract.h"
 #include "timing.h"
@@ -26,24 +27,50 @@ public:
     void run() const override
     {
         onlineStatistic stats;
-        // bool isConverging;
-        // bool enoughIterations;
-        // bool isMeanPreciseEnough;
+        bool minTime;
+        bool maxTime;
+        double elapsedTime{0.0};
+        bool isConverging;
+        bool enoughIterations;
+        bool isMeanPreciseEnough;
         do
         {
-            // auto lastVariance = stats.getVariance();
-            auto start = timePoint::now();
+            auto lastVariance = stats.getVariance();
+            auto start        = timePoint::now();
             runBenchmark();
             auto end    = timePoint::now();
             auto sample = timePoint::duration(start, end);
-#ifndef NDEBUG
-            std::cout << sample << std::endl;
-#endif
             stats.addSample(sample);
-            // isConverging     = (stats.getVariance() / lastVariance) < 0.9;
-            // enoughIterations = stats.getSamples() >= 10;
-            // isMeanPreciseEnough = (stats.getMean() / stats.getStdDev()) > 3;
-        } while (stats.getSamples() < 10);
+            elapsedTime += sample;
+            minTime      = elapsedTime > BENCHMARK_MIN_TIME;
+            maxTime      = elapsedTime > BENCHMARK_MAX_TIME;
+            isConverging = (stats.getVariance() / lastVariance) <
+                           BENCHMARK_CONVERGENCE_RATIO;
+            enoughIterations    = stats.getSamples() >= BENCHMARK_MIN_ITER;
+            isMeanPreciseEnough = (stats.getMean() / stats.getStdDev()) >
+                                  BENCHMARK_MEAN_PRECISION;
+#ifndef NDEBUG
+            std::cout << sample << ", " << elapsedTime << std::endl;
+#endif
+            if (maxTime)
+            {
+                break;
+            }
+            if (minTime)
+            {
+                if (!isConverging)
+                {
+                    if (isMeanPreciseEnough)
+                    {
+                        break;
+                    }
+                    if (enoughIterations)
+                    {
+                        break;
+                    }
+                }
+            }
+        } while (true);
         std::cout << getTestSuite() << "/" << getTestCase()
                   << " \tsamples: " << stats.getSamples() << " \t"
                   << stats.getMean() << " \t" << stats.getStdDev() << std::endl;
