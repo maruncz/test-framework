@@ -6,6 +6,20 @@
 #include "testabstract.h"
 #include "timing.h"
 
+template<class Tp> inline void DoNotOptimize(Tp const &value)
+{
+    asm volatile("" : : "r,m"(value) : "memory");
+}
+
+template<class Tp> inline void DoNotOptimize(Tp &value)
+{
+#if defined(__clang__)
+    asm volatile("" : "+r,m"(value) : : "memory");
+#else
+    asm volatile("" : "+m,r"(value) : : "memory");
+#endif
+}
+
 class benchmarkBase : public testAbstract
 {
 public:
@@ -50,7 +64,7 @@ public:
             isMeanPreciseEnough = (stats.getMean() / stats.getStdDev()) >
                                   BENCHMARK_MEAN_PRECISION;
 #ifndef NDEBUG
-            std::cout << sample << ", " << elapsedTime << std::endl;
+            //std::cout << sample << ", " << elapsedTime << "\n";
 #endif
             if (maxTime)
             {

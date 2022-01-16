@@ -10,6 +10,7 @@
 #include <thread>
 #include <vector>
 
+/*
 template<class Tp> inline void DoNotOptimize(Tp const &value)
 {
     asm volatile("" : : "r,m"(value) : "memory");
@@ -22,7 +23,7 @@ template<class Tp> inline void DoNotOptimize(Tp &value)
 #else
     asm volatile("" : "+m,r"(value) : : "memory");
 #endif
-}
+}*/
 
 TEST(sada, test)
 {
