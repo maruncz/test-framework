@@ -7,13 +7,13 @@ testManager &testManager::getInstance()
     return instance;
 }
 
-void testManager::insertTestCase(const testAbstract *testCase)
+void testManager::insertTestCase(testAbstract *testCase)
 {
     testMap[testCase->getTestSuite()].insert(
         std::make_pair(testCase->getTestCase(), testCase));
 }
 
-void testManager::insertBenchmarkCase(const testAbstract *testCase)
+void testManager::insertBenchmarkCase(testAbstract *testCase)
 {
     benchmarkMap[testCase->getTestSuite()].insert(
         std::make_pair(testCase->getTestCase(), testCase));

@@ -13,8 +13,8 @@ class testManager
 public:
     static testManager &getInstance();
 
-    void insertTestCase(testAbstract const *testCase);
-    void insertBenchmarkCase(testAbstract const *testCase);
+    void insertTestCase(testAbstract *testCase);
+    void insertBenchmarkCase(testAbstract *testCase);
 
     void runAllTests() const;
     void runAllBenchmarks() const;
@@ -28,7 +28,7 @@ public:
 private:
     testManager() = default;
 
-    using casesMap  = std::map<std::string, const testAbstract *>;
+    using casesMap  = std::map<std::string, testAbstract *>;
     using suitesMap = std::map<std::string, casesMap>;
     suitesMap testMap;
     suitesMap benchmarkMap;

@@ -24,6 +24,7 @@ set(TESTS_SRCS
 set(BENCHMARK_SRCS
     benchmarkbase.h
     benchmarkbasic.h
+    benchmarkfixture.h
     benchmarksettings.h
     timing.h
     ${CMAKE_CURRENT_BINARY_DIR}/timingsettings.h

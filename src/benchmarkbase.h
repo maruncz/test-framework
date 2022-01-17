@@ -38,8 +38,9 @@ public:
         testManager::getInstance().insertBenchmarkCase(this);
     }
 
-    void run() const override
+    void run() override
     {
+        setUp();
         onlineStatistic stats;
         bool minTime;
         bool maxTime;
@@ -86,12 +87,16 @@ public:
                 }
             }
         } while (true);
+        tearDown();
         std::cout << getTestSuite() << "/" << getTestCase()
                   << " \tsamples: " << stats.getSamples() << " \t"
                   << stats.getMean() << " \t" << stats.getStdDev() << std::endl;
     }
 
+protected:
     virtual void runBenchmark() const = 0;
+    virtual void setUp() {}
+    virtual void tearDown() {}
 };
 
 #endif // BENCHMARKBASE_H

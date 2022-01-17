@@ -34,7 +34,7 @@ public:
 
     ~testBase() override = default;
 
-    void run() const override
+    void run() override
     {
         std::cout << "[" << getTestSuite() << ", " << getTestCase() << "] "
                   << "running" << std::endl;
