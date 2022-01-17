@@ -63,8 +63,9 @@ public:
             enoughIterations    = stats.getSamples() >= BENCHMARK_MIN_ITER;
             isMeanPreciseEnough = (stats.getMean() / stats.getStdDev()) >
                                   BENCHMARK_MEAN_PRECISION;
+
 #ifndef NDEBUG
-            //std::cout << sample << ", " << elapsedTime << "\n";
+            // std::cout << sample << ", " << elapsedTime << "\n";
 #endif
             if (maxTime)
             {

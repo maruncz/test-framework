@@ -1,5 +1,6 @@
 #include "onlinestatistic.h"
 #include <cmath>
+#include <limits>
 
 void onlineStatistic::addSample(double sample)
 {
@@ -25,7 +26,7 @@ double onlineStatistic::getVariance() const
 {
     if (samples <= 1)
     {
-        return 0;
+        return std::numeric_limits<double>::max();
     }
     return M2n / (samples - 1);
 }
