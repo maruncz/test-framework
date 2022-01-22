@@ -14,8 +14,11 @@ public:
         : std::chrono::steady_clock::time_point(o)
     {
     }
+};
 
-    static timePoint now() noexcept
+struct timing
+{
+    static timePoint now()
     {
         return timePoint(std::chrono::steady_clock::now());
     }
@@ -29,19 +32,53 @@ public:
 #endif
 
 #ifdef TIMING_ENABLE_AVR
+
+extern "C"
+{
+#    include <avr/io.h>
+}
+
+#    include <cstdio>
+
 class timePoint
 {
 public:
-    static timePoint now() {}
-
-    static double duration(const timePoint &start, const timePoint &end) {}
+    explicit timePoint(uint32_t inValue) : value(inValue) {}
 
 private:
-    timePoint operator-(const timePoint &o) {}
-
-    static constexpr double overflowPeriod{1};
-    uint64_t value{0};
+    uint32_t value{0};
+    friend struct timing;
 };
+
+struct timing
+{
+    static void init();
+    static timePoint now()
+    {
+        uint16_t ovf   = overflowCount;
+        uint32_t tcnt1 = TCNT1;
+        uint32_t value = tcnt1;
+        value += ovf * 65536;
+        return timePoint(value);
+    }
+    static double duration(const timePoint &start, const timePoint &end)
+    {
+        uint32_t diff = 0;
+        //overflow is sometimes missed
+        if (end.value < start.value)
+        {
+            diff = end.value - start.value + 65536;
+        }
+        else
+        {
+            diff = end.value - start.value;
+        }
+        return static_cast<double>(diff) / F_CPU;
+    }
+
+    static volatile uint16_t overflowCount;
+};
+
 #endif
 
 #endif // TIMING_H

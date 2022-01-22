@@ -26,7 +26,7 @@ set(BENCHMARK_SRCS
     benchmarkbasic.h
     benchmarkfixture.h
     benchmarksettings.h
-    timing.h
+    timing.h timing.cpp
     ${CMAKE_CURRENT_BINARY_DIR}/timingsettings.h
     )
 
@@ -44,10 +44,10 @@ add_library(test-fw-tests INTERFACE ${TESTS_SRCS})
 set_target_properties(test-fw-tests PROPERTIES LINKER_LANGUAGE CXX)
 target_include_directories(test-fw-tests INTERFACE ${CMAKE_CURRENT_SOURCE_DIR})
 
-add_library(test-fw-benchmark INTERFACE ${BENCHMARK_SRCS})
+add_library(test-fw-benchmark STATIC ${BENCHMARK_SRCS})
 set_target_properties(test-fw-benchmark PROPERTIES LINKER_LANGUAGE CXX)
 target_include_directories(test-fw-benchmark INTERFACE ${CMAKE_CURRENT_SOURCE_DIR})
-target_include_directories(test-fw-benchmark INTERFACE ${CMAKE_CURRENT_BINARY_DIR})
+target_include_directories(test-fw-benchmark PUBLIC ${CMAKE_CURRENT_BINARY_DIR})
 
 target_link_libraries(test-fw-tests INTERFACE test-fw-base test-fw-testmanager)
 target_link_libraries(test-fw-benchmark INTERFACE test-fw-base test-fw-testmanager test-fw-statistics)

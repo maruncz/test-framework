@@ -9,8 +9,8 @@
     {                                                                         \
     public:                                                                   \
         benchmarkBasic##_##test_suite_name##_##test_case_name(                \
-            std::string inTestSuite, std::string inTestCase)                  \
-            : benchmarkBase(std::move(inTestSuite), std::move(inTestCase))    \
+            const std::string &inTestSuite, const std::string &inTestCase)    \
+            : benchmarkBase(inTestSuite, inTestCase)                          \
         {                                                                     \
         }                                                                     \
                                                                               \

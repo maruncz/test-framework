@@ -1,9 +1,9 @@
 #ifndef TESTMANAGER_H
 #define TESTMANAGER_H
 
-#include <iostream>
-#include <map>
+#include <iterator>
 #include <string>
+#include <vector>
 
 class testAbstract;
 
@@ -28,10 +28,8 @@ public:
 private:
     testManager() = default;
 
-    using casesMap  = std::map<std::string, testAbstract *>;
-    using suitesMap = std::map<std::string, casesMap>;
-    suitesMap testMap;
-    suitesMap benchmarkMap;
+    std::vector<testAbstract *> tests;
+    std::vector<testAbstract *> benchmarks;
 };
 
 #endif // TESTMANAGER_H

@@ -2,7 +2,7 @@
 #define TESTBASE_H
 
 #include "testabstract.h"
-#include <iostream>
+#include <cstdio>
 #include <map>
 #include <string>
 #include <utility>
@@ -13,8 +13,8 @@ public:
     class result
     {
     public:
-        explicit result(bool inOk, std::string inMsg = std::string())
-            : ok(inOk), msg(std::move(inMsg))
+        explicit result(bool inOk, const std::string &inMsg = std::string())
+            : ok(inOk), msg(inMsg)
         {
         }
 
@@ -26,8 +26,8 @@ public:
         const std::string msg;
     };
 
-    testBase(std::string inTestSuite, std::string inTestCase)
-        : testAbstract(std::move(inTestSuite), std::move(inTestCase))
+    testBase(const std::string &inTestSuite, const std::string &inTestCase)
+        : testAbstract(inTestSuite, inTestCase)
     {
         testManager::getInstance().insertTestCase(this);
     }
@@ -36,17 +36,17 @@ public:
 
     void run() override
     {
-        std::cout << "[" << getTestSuite() << ", " << getTestCase() << "] "
-                  << "running" << std::endl;
+        printf("[%s, %s] running\n", getTestSuite().c_str(),
+               getTestCase().c_str());
         auto result = runTestCase();
-        std::cout << "[" << getTestSuite() << ", " << getTestCase() << "] ";
+        printf("[%s, %s] ", getTestSuite().c_str(), getTestCase().c_str());
         if (result.getOk())
         {
-            std::cout << "OK" << std::endl;
+            printf("OK\n");
         }
         else
         {
-            std::cout << "failed: " << result.getMsg() << std::endl;
+            printf("failed: %s\n", result.getMsg().c_str());
         }
     }
 

@@ -2,6 +2,7 @@
 #define TESTABSTRACT_H
 
 #include "testmanager.h"
+#include <string>
 
 #define stringify_helper(s) #s
 #define stringify(s) stringify_helper(s)
@@ -9,8 +10,8 @@
 class testAbstract
 {
 public:
-    testAbstract(std::string inTestSuite, std::string inTestCase)
-        : testSuite(std::move(inTestSuite)), testCase(std::move(inTestCase))
+    testAbstract(const std::string &inTestSuite, const std::string &inTestCase)
+        : testSuite(inTestSuite), testCase(inTestCase)
     {
     }
 

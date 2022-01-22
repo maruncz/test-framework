@@ -5,6 +5,9 @@
 #include "onlinestatistic.h"
 #include "testabstract.h"
 #include "timing.h"
+#include <cinttypes>
+
+//#define DEBUG_ITER
 
 template<class Tp> inline void DoNotOptimize(Tp const &value)
 {
@@ -32,8 +35,8 @@ public:
         onlineStatistic stats;
     };
 
-    benchmarkBase(std::string inTestSuite, std::string inTestCase)
-        : testAbstract(std::move(inTestSuite), std::move(inTestCase))
+    benchmarkBase(const std::string &inTestSuite, const std::string &inTestCase)
+        : testAbstract(inTestSuite, inTestCase)
     {
         testManager::getInstance().insertBenchmarkCase(this);
     }
@@ -51,10 +54,10 @@ public:
         do
         {
             auto lastVariance = stats.getVariance();
-            auto start        = timePoint::now();
+            auto start        = timing::now();
             runBenchmark();
-            auto end    = timePoint::now();
-            auto sample = timePoint::duration(start, end);
+            auto end    = timing::now();
+            auto sample = timing::duration(start, end);
             stats.addSample(sample);
             elapsedTime += sample;
             minTime      = elapsedTime > BENCHMARK_MIN_TIME;
@@ -65,8 +68,8 @@ public:
             isMeanPreciseEnough = (stats.getMean() / stats.getStdDev()) >
                                   BENCHMARK_MEAN_PRECISION;
 
-#ifndef NDEBUG
-            // std::cout << sample << ", " << elapsedTime << "\n";
+#ifdef DEBUG_ITER
+            printf("iter: %g %g\n", sample, elapsedTime);
 #endif
             if (maxTime)
             {
@@ -88,9 +91,9 @@ public:
             }
         } while (true);
         tearDown();
-        std::cout << getTestSuite() << "/" << getTestCase()
-                  << " \tsamples: " << stats.getSamples() << " \t"
-                  << stats.getMean() << " \t" << stats.getStdDev() << std::endl;
+        printf("%s/%s\tsamples:%9u\t%6g\t%6g\n", getTestSuite().c_str(),
+               getTestCase().c_str(), stats.getSamples(), stats.getMean(),
+               stats.getStdDev());
     }
 
 protected:
