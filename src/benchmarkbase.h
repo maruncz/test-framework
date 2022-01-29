@@ -91,13 +91,15 @@ public:
             }
         } while (true);
         tearDown();
-        printf("%s/%s\tsamples:%9u\t%6g\t%6g\n", getTestSuite().c_str(),
+        printf("%s/%s\t%9u\t%6e\t%6e\t%6e\t%6e\t%6e\n", getTestSuite().c_str(),
                getTestCase().c_str(), stats.getSamples(), stats.getMean(),
-               stats.getStdDev());
+               stats.getMedian(), stats.quantile(0.5), stats.quantile(0.9),
+               stats.quantile(0.99));
+        stats.printHist();
     }
 
 protected:
-    virtual void runBenchmark() const = 0;
+    virtual void runBenchmark() = 0;
     virtual void setUp() {}
     virtual void tearDown() {}
 };

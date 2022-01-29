@@ -16,7 +16,7 @@ void timing::init()
     overflowCount = 0;
     // Set timer 1 to count cycles
     TCCR1B = 1;
-    TIMSK |= (1 << TOIE1);
+    TIMSK1 |= (1 << TOIE1);
     sei();
 }
 

@@ -24,6 +24,7 @@ if(${TEST_FW_BUILD_TESTS})
     FetchContent_MakeAvailable(googletest)
     add_subdirectory(tests)
 endif()
+
 if(${TEST_FW_BUILD_DEV_BINARIES})
     set(SRCS
         main.cpp
