@@ -26,20 +26,13 @@ template<class Tp> inline void DoNotOptimize(Tp &value)
 class benchmarkBase : public testAbstract
 {
 public:
-    class result
-    {
-    public:
-        void addSample(double sample) { stats.addSample(sample); }
-
-    private:
-        onlineStatistic stats;
-    };
-
     benchmarkBase(const std::string &inTestSuite, const std::string &inTestCase)
         : testAbstract(inTestSuite, inTestCase)
     {
         testManager::getInstance().insertBenchmarkCase(this);
     }
+
+    benchmarkBase(const benchmarkBase &o) = delete;
 
     void run() override
     {
@@ -91,11 +84,12 @@ public:
             }
         } while (true);
         tearDown();
-        printf("%s/%s\t%9u\t%6e\t%6e\t%6e\t%6e\t%6e\n", getTestSuite().c_str(),
-               getTestCase().c_str(), stats.getSamples(), stats.getMean(),
-               stats.getMedian(), stats.quantile(0.5), stats.quantile(0.9),
-               stats.quantile(0.99));
-        stats.printHist();
+        printf("%10s/%20s %9u %12e %12e %12e %12e %12e\n",
+               getTestSuite().c_str(), getTestCase().c_str(),
+               stats.getSamples(), stats.getMean(), stats.getMedian(),
+               stats.quantile(0.5), stats.quantile(0.9), stats.quantile(0.99));
+        // stats.printHist();
+        fflush(stdout);
     }
 
 protected:

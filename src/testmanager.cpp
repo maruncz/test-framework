@@ -27,6 +27,8 @@ void testManager::runAllTests() const
 
 void testManager::runAllBenchmarks() const
 {
+    printf("%10s/%20s %9s %12s %12s %12s %12s %12s\n", "suite name",
+           "test name", "samples", "mean", "median", "q0.5", "q0.9", "q0.99");
     for (auto benchmark : benchmarks)
     {
         benchmark->run();

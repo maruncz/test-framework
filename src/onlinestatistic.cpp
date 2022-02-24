@@ -6,7 +6,7 @@
 
 void onlineStatistic::addSample(double sample)
 {
-    ++(hist[roundToDigits(sample, 3)]);
+    ++(hist[roundToDigits(sample, 5)]);
     ++samples;
     if (samples <= 1)
     {
@@ -85,7 +85,7 @@ double onlineStatistic::getMedian() const
 
 double onlineStatistic::quantile(double value) const
 {
-    double point       = (samples * value);
+    double point       = (double(samples) * value);
     size_t sum_samples = 0;
     for (auto it = hist.begin(); it != hist.end(); ++it)
     {
