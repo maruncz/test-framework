@@ -11,8 +11,7 @@
         benchmarkBasic##_##test_suite_name##_##test_case_name(             \
             const std::string &inTestSuite, const std::string &inTestCase) \
             : benchmarkBase(inTestSuite, inTestCase)                       \
-        {                                                                  \
-        }                                                                  \
+        {}                                                                 \
                                                                            \
         void runBenchmark() override;                                      \
     };                                                                     \

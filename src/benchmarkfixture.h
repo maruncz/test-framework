@@ -11,8 +11,7 @@
         benchmarkFixture##_##test_suite_name##_##test_case_name(           \
             const std::string &inTestSuite, const std::string &inTestCase) \
             : fixture_name(inTestSuite, inTestCase)                        \
-        {                                                                  \
-        }                                                                  \
+        {}                                                                 \
                                                                            \
         void runBenchmark() override;                                      \
     };                                                                     \
@@ -21,7 +20,7 @@
         test_suite_name##_##test_case_name(stringify(test_suite_name),     \
                                            stringify(test_case_name));     \
                                                                            \
-    inline void benchmarkFixture##_##test_suite_name##_##test_case_name::  \
-        runBenchmark()
+    inline void                                                            \
+        benchmarkFixture##_##test_suite_name##_##test_case_name::runBenchmark()
 
 #endif // BENCHMARKFIXTURE_H

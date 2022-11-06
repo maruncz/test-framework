@@ -11,31 +11,16 @@
 #include <thread>
 #include <vector>
 
-/*
-template<class Tp> inline void DoNotOptimize(Tp const &value)
-{
-    asm volatile("" : : "r,m"(value) : "memory");
-}
-
-template<class Tp> inline void DoNotOptimize(Tp &value)
-{
-#if defined(__clang__)
-    asm volatile("" : "+r,m"(value) : : "memory");
-#else
-    asm volatile("" : "+m,r"(value) : : "memory");
-#endif
-}*/
-
 TEST(sada, test)
 {
     std::cout << "test" << std::endl;
-    return result{true};
+    return result(true);
 }
 
 TEST(sada, test2)
 {
     std::cout << "test2" << std::endl;
-    return result{false};
+    return result(true);
 }
 
 BENCHMARK(bench, bench)

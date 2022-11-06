@@ -1,7 +1,6 @@
 #ifndef TESTABSTRACT_H
 #define TESTABSTRACT_H
 
-#include "testmanager.h"
 #include <string>
 
 #define stringify_helper(s) #s
@@ -12,8 +11,7 @@ class testAbstract
 public:
     testAbstract(const std::string &inTestSuite, const std::string &inTestCase)
         : testSuite(inTestSuite), testCase(inTestCase)
-    {
-    }
+    {}
 
     virtual ~testAbstract() = default;
 

@@ -15,8 +15,8 @@ void onlineStatistic::addSample(double sample)
     else
     {
         auto prevMean = mean;
-        mean          = mean + (sample - mean) / samples;
-        M2n           = M2n + (sample - prevMean) * (sample - mean);
+        mean = mean + (sample - mean) / samples;
+        M2n = M2n + (sample - prevMean) * (sample - mean);
     }
 }
 
@@ -85,7 +85,7 @@ double onlineStatistic::getMedian() const
 
 double onlineStatistic::quantile(double value) const
 {
-    double point       = (double(samples) * value);
+    double point = (double(samples) * value);
     size_t sum_samples = 0;
     for (auto it = hist.begin(); it != hist.end(); ++it)
     {
@@ -117,8 +117,8 @@ double onlineStatistic::roundToDigits(double value, uint8_t digits)
         return 0;
     }
 
-    double factor =
-        std::pow(10.0, digits - std::ceil(std::log10(std::abs(value))));
+    double factor = std::pow(10.0,
+                             digits - std::ceil(std::log10(std::abs(value))));
     return std::round(value * factor) / factor;
 }
 

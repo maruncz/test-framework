@@ -3,7 +3,7 @@
 #ifdef TIMING_ENABLE_AVR
 extern "C"
 {
-#    include <avr/interrupt.h>
+#include <avr/interrupt.h>
 }
 
 ISR(TIMER1_OVF_vect)

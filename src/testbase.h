@@ -2,6 +2,7 @@
 #define TESTBASE_H
 
 #include "testabstract.h"
+#include "testmanager.h"
 #include <cstdio>
 #include <map>
 #include <string>
@@ -15,8 +16,7 @@ public:
     public:
         explicit result(bool inOk, const std::string &inMsg = std::string())
             : ok(inOk), msg(inMsg)
-        {
-        }
+        {}
 
         [[nodiscard]] bool getOk() const { return ok; }
         [[nodiscard]] const std::string &getMsg() const { return msg; }

@@ -2,18 +2,16 @@
 #define TIMING_H
 
 #include <cstdint>
-#include <timingsettings.h>
 
 #ifdef TIMING_ENABLE_STD_CHRONO
-#    include <chrono>
+#include <chrono>
 
 class timePoint : public std::chrono::steady_clock::time_point
 {
 public:
     explicit timePoint(const std::chrono::steady_clock::time_point &o)
         : std::chrono::steady_clock::time_point(o)
-    {
-    }
+    {}
 };
 
 struct timing
@@ -35,10 +33,10 @@ struct timing
 
 extern "C"
 {
-#    include <avr/io.h>
+#include <avr/io.h>
 }
 
-#    include <cstdio>
+#include <cstdio>
 
 class timePoint
 {
@@ -55,7 +53,7 @@ struct timing
     static void init();
     static timePoint now()
     {
-        uint16_t ovf   = overflowCount;
+        uint16_t ovf = overflowCount;
         uint32_t tcnt1 = TCNT1;
         uint32_t value = tcnt1;
         value += ovf * 65536;

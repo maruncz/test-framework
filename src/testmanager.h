@@ -20,10 +20,10 @@ public:
     void runAllBenchmarks() const;
 
     testManager(testManager const &o) = delete;
-    testManager(testManager &&o)      = delete;
+    testManager(testManager &&o) = delete;
     void operator=(testManager const &o) = delete;
     testManager &operator=(testManager &&o) = delete;
-    ~testManager()                          = default;
+    ~testManager() = default;
 
 private:
     testManager() = default;
