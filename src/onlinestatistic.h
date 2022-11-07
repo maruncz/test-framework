@@ -15,7 +15,7 @@ public:
     [[nodiscard]] double getMean() const;
     [[nodiscard]] double getVariance() const;
     [[nodiscard]] double getStdDev() const;
-    [[nodiscard]] size_t getSamples() const;
+    [[nodiscard]] uint32_t getSamples() const;
     [[nodiscard]] double getMedian() const;
     [[nodiscard]] double quantile(double value) const;
     void printHist() const;
@@ -28,7 +28,7 @@ private:
 
     double mean{0};
     double M2n{0};
-    size_t samples{0};
+    uint32_t samples{0};
     std::map<double, uint32_t> hist;
 };
 

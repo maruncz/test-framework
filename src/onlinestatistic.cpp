@@ -39,7 +39,7 @@ double onlineStatistic::getStdDev() const
     return std::sqrt(getVariance());
 }
 
-size_t onlineStatistic::getSamples() const
+uint32_t onlineStatistic::getSamples() const
 {
     return samples;
 }
