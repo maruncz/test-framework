@@ -41,12 +41,7 @@ public:
     {
         setUp();
         onlineStatistic stats;
-        bool minTime;
-        bool maxTime;
         double elapsedTime{0.0};
-        bool isConverging;
-        bool enoughIterations;
-        bool isMeanPreciseEnough;
         do
         {
             auto lastVariance = stats.getVariance();
@@ -56,13 +51,13 @@ public:
             auto sample = timing::duration(start, end);
             stats.addSample(sample);
             elapsedTime += sample;
-            minTime = elapsedTime > BENCHMARK_MIN_TIME;
-            maxTime = elapsedTime > BENCHMARK_MAX_TIME;
-            isConverging = (stats.getVariance() / lastVariance)
-                           < BENCHMARK_CONVERGENCE_RATIO;
-            enoughIterations = stats.getSamples() >= BENCHMARK_MIN_ITER;
-            isMeanPreciseEnough = (stats.getMean() / stats.getStdDev())
-                                  > BENCHMARK_MEAN_PRECISION;
+            bool minTime = elapsedTime > BENCHMARK_MIN_TIME;
+            bool maxTime = elapsedTime > BENCHMARK_MAX_TIME;
+            bool isConverging = (stats.getVariance() / lastVariance)
+                                < BENCHMARK_CONVERGENCE_RATIO;
+            bool enoughIterations = stats.getSamples() >= BENCHMARK_MIN_ITER;
+            bool isMeanPreciseEnough = (stats.getMean() / stats.getStdDev())
+                                       > BENCHMARK_MEAN_PRECISION;
 
 #ifdef DEBUG_ITER
             printf("iter: %g %g\n", sample, elapsedTime);
@@ -87,10 +82,11 @@ public:
             }
         } while (true);
         tearDown();
-        printf("%10s/%20s %9u %12e %12e %12e %12e %12e\n",
+        printf("%10s/%20s %9u %12e %12e %12e %12e %12e %12e\n",
                getTestSuite().c_str(), getTestCase().c_str(),
                stats.getSamples(), stats.getMean(), stats.getMedian(),
-               stats.quantile(0.5), stats.quantile(0.9), stats.quantile(0.99));
+               stats.quantile(0.5), stats.quantile(0.9), stats.quantile(0.99),
+               elapsedTime);
         // stats.printHist();
         fflush(stdout);
     }
