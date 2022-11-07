@@ -48,6 +48,7 @@ public:
         {
             printf("failed: %s\n", result.getMsg().c_str());
         }
+        fflush(stdout);
     }
 
     [[nodiscard]] virtual result runTestCase() const = 0;
