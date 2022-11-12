@@ -17,12 +17,14 @@ void testManager::insertBenchmarkCase(testAbstract *testCase)
     benchmarks.push_back(testCase);
 }
 
-void testManager::runAllTests() const
+bool testManager::runAllTests() const
 {
+    bool ok = true;
     for (auto &test : tests)
     {
-        test->run();
+        ok &= test->run();
     }
+    return ok;
 }
 
 void testManager::runAllBenchmarks() const

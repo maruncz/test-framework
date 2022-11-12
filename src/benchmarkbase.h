@@ -37,7 +37,7 @@ public:
 
     benchmarkBase(const benchmarkBase &o) = delete;
 
-    void run() override
+    bool run() override
     {
         setUp();
         onlineStatistic stats;
@@ -89,6 +89,7 @@ public:
                elapsedTime);
         // stats.printHist();
         fflush(stdout);
+        return true;
     }
 
 protected:

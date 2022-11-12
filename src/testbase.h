@@ -16,7 +16,8 @@ public:
     public:
         explicit result(bool inOk, const std::string &inMsg = std::string())
             : ok(inOk), msg(inMsg)
-        {}
+        {
+        }
 
         [[nodiscard]] bool getOk() const { return ok; }
         [[nodiscard]] const std::string &getMsg() const { return msg; }
@@ -34,7 +35,7 @@ public:
 
     ~testBase() override = default;
 
-    void run() override
+    bool run() override
     {
         printf("[%s, %s] running\n", getTestSuite().c_str(),
                getTestCase().c_str());
@@ -49,6 +50,7 @@ public:
             printf("failed: %s\n", result.getMsg().c_str());
         }
         fflush(stdout);
+        return result.getOk();
     }
 
     [[nodiscard]] virtual result runTestCase() const = 0;

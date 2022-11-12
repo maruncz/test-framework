@@ -16,7 +16,7 @@ public:
     void insertTestCase(testAbstract *testCase);
     void insertBenchmarkCase(testAbstract *testCase);
 
-    void runAllTests() const;
+    bool runAllTests() const;
     void runAllBenchmarks() const;
 
     testManager(testManager const &o) = delete;

@@ -15,7 +15,7 @@ public:
 
     virtual ~testAbstract() = default;
 
-    virtual void run() = 0;
+    virtual bool run() = 0;
 
     [[nodiscard]] const std::string &getTestSuite() const { return testSuite; }
     [[nodiscard]] const std::string &getTestCase() const { return testCase; }
