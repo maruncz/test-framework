@@ -1,7 +1,6 @@
 #include "testmanager.h"
 
-int main(int argc, char *argv[])
+int main()
 {
-    testManager::getInstance().runAllTests();
-    return 0;
+    return (testManager::getInstance().runAllTests()) ? 0 : 1;
 }

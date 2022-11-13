@@ -4,17 +4,20 @@
 #include "benchmarksettings.h"
 #include "onlinestatistic.h"
 #include "testabstract.h"
+#include "testmanager.h"
 #include "timing.h"
 #include <cinttypes>
 
 //#define DEBUG_ITER
 
-template<class Tp> inline void DoNotOptimize(Tp const &value)
+template<class Tp>
+inline void DoNotOptimize(Tp const &value)
 {
     asm volatile("" : : "r,m"(value) : "memory");
 }
 
-template<class Tp> inline void DoNotOptimize(Tp &value)
+template<class Tp>
+inline void DoNotOptimize(Tp &value)
 {
 #if defined(__clang__)
     asm volatile("" : "+r,m"(value) : : "memory");
@@ -34,32 +37,27 @@ public:
 
     benchmarkBase(const benchmarkBase &o) = delete;
 
-    void run() override
+    bool run() override
     {
         setUp();
         onlineStatistic stats;
-        bool minTime;
-        bool maxTime;
         double elapsedTime{0.0};
-        bool isConverging;
-        bool enoughIterations;
-        bool isMeanPreciseEnough;
         do
         {
             auto lastVariance = stats.getVariance();
-            auto start        = timing::now();
+            auto start = timing::now();
             runBenchmark();
-            auto end    = timing::now();
+            auto end = timing::now();
             auto sample = timing::duration(start, end);
             stats.addSample(sample);
             elapsedTime += sample;
-            minTime      = elapsedTime > BENCHMARK_MIN_TIME;
-            maxTime      = elapsedTime > BENCHMARK_MAX_TIME;
-            isConverging = (stats.getVariance() / lastVariance) <
-                           BENCHMARK_CONVERGENCE_RATIO;
-            enoughIterations    = stats.getSamples() >= BENCHMARK_MIN_ITER;
-            isMeanPreciseEnough = (stats.getMean() / stats.getStdDev()) >
-                                  BENCHMARK_MEAN_PRECISION;
+            bool minTime = elapsedTime > BENCHMARK_MIN_TIME;
+            bool maxTime = elapsedTime > BENCHMARK_MAX_TIME;
+            bool isConverging = (stats.getVariance() / lastVariance)
+                                < BENCHMARK_CONVERGENCE_RATIO;
+            bool enoughIterations = stats.getSamples() >= BENCHMARK_MIN_ITER;
+            bool isMeanPreciseEnough = (stats.getMean() / stats.getStdDev())
+                                       > BENCHMARK_MEAN_PRECISION;
 
 #ifdef DEBUG_ITER
             printf("iter: %g %g\n", sample, elapsedTime);
@@ -84,12 +82,14 @@ public:
             }
         } while (true);
         tearDown();
-        printf("%10s/%20s %9u %12e %12e %12e %12e %12e\n",
+        printf("%10s/%-20s %9u %12e %12e %12e %12e %12e %12g\n",
                getTestSuite().c_str(), getTestCase().c_str(),
                stats.getSamples(), stats.getMean(), stats.getMedian(),
-               stats.quantile(0.5), stats.quantile(0.9), stats.quantile(0.99));
+               stats.quantile(0.5), stats.quantile(0.9), stats.quantile(0.99),
+               elapsedTime);
         // stats.printHist();
         fflush(stdout);
+        return true;
     }
 
 protected:

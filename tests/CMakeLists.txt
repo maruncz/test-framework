@@ -4,4 +4,4 @@ set(TEST_SRCS
     )
 
 add_executable(test ${TEST_SRCS})
-target_link_libraries(test PRIVATE gtest_main test-fw-statistics)
+target_link_libraries(test PRIVATE test-fw-statistics test-fw-tests-main)

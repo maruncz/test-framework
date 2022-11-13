@@ -1,7 +1,6 @@
 #ifndef TESTABSTRACT_H
 #define TESTABSTRACT_H
 
-#include "testmanager.h"
 #include <string>
 
 #define stringify_helper(s) #s
@@ -17,10 +16,10 @@ public:
 
     virtual ~testAbstract() = default;
 
-    virtual void run() = 0;
+    virtual bool run() = 0;
 
-    [[nodiscard]] const std::string &getTestSuite() const { return testSuite; }
-    [[nodiscard]] const std::string &getTestCase() const { return testCase; }
+    const std::string &getTestSuite() const { return testSuite; }
+    const std::string &getTestCase() const { return testCase; }
 
 private:
     const std::string testSuite;

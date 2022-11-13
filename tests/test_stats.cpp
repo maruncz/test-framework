@@ -1,10 +1,11 @@
 #include <algorithm>
 #include <cmath>
-#include <gtest/gtest.h>
 #include <iostream>
 #include <limits>
 #include <onlinestatistic.h>
 #include <random>
+#include <testcasebasic.h>
+#include <testmacros.h>
 #include <vector>
 
 // constexpr double dbl_eps = std::numeric_limits<double>::epsilon();
@@ -33,8 +34,7 @@ TEST(stats, random)
             mean += e;
         }
         mean /= samples.size();
-        ASSERT_NEAR(mean, stats.getMean(), stats.getMean() * relPrec)
-            << "iteration: " << i;
+        ASSERT_NEAR(mean, stats.getMean(), stats.getMean() * relPrec);
 
         for (auto e : samples)
         {
@@ -42,8 +42,7 @@ TEST(stats, random)
         }
         variance /= (samples.size() - 1);
         ASSERT_NEAR(variance, stats.getVariance(),
-                    stats.getVariance() * relPrec)
-            << "iteration: " << i;
+                    stats.getVariance() * relPrec);
 
         double median{0};
         auto center = samples.size() / 2;
@@ -56,13 +55,21 @@ TEST(stats, random)
         {
             median = samples.at(center);
         }
-        auto median_stat = stats.getMedian();
+
+        double q09 = samples.at(samples.size() * 0.9);
+
+        //auto median_stat = stats.getMedian();
         //ASSERT_NEAR(median, median_stat, median * 2e-2);
-        std::cout << stats.getMean() << "\t" << stats.getMedian() << "\t" << stats.quantile(0.5) << "\t" << stats.quantile(0.9) << "\t" << stats.quantile(0.5) << std::endl;
+        std::cout << sample << '\t' << stats.getMean() << "\t"
+                  << stats.getMedian() << '\t' << stats.getVariance() << "\t"
+                  << stats.quantile(0.5) << "\t" << stats.quantile(0.9) << "\t"
+                  << stats.quantile(0.99) << "\t\t" << mean << '\t' << median
+                  << '\t' << variance << "\t\t" << q09 << '\n';
     }
-    stats.printHist();
+    //stats.printHist();
     /*for(auto e : samples)
     {
         std::cout << e <<";\n";
     }*/
+    return result(true);
 }

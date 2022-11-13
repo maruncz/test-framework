@@ -2,10 +2,9 @@ cmake_minimum_required(VERSION 3.11)
 
 project(test-framework LANGUAGES CXX)
 
-set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_STANDARD 14)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
-
-
+set(CMAKE_CXX_EXTENSIONS OFF)
 
 option(TEST_FW_BUILD_TESTS "")
 option(TEST_FW_BUILD_DEV_BINARIES "")
@@ -13,15 +12,6 @@ option(TEST_FW_BUILD_DEV_BINARIES "")
 add_subdirectory(src)
 
 if(${TEST_FW_BUILD_TESTS})
-    include(FetchContent)
-    FetchContent_Declare(
-        googletest
-        GIT_REPOSITORY https://github.com/google/googletest.git
-        GIT_TAG release-1.11.0
-        )
-    # For Windows: Prevent overriding the parent project's compiler/linker settings
-    set(gtest_force_shared_crt ON CACHE BOOL "" FORCE)
-    FetchContent_MakeAvailable(googletest)
     add_subdirectory(tests)
 endif()
 

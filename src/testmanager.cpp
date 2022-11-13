@@ -1,5 +1,5 @@
 #include "testmanager.h"
-#include "testbase.h"
+#include "testabstract.h"
 
 testManager &testManager::getInstance()
 {
@@ -17,19 +17,22 @@ void testManager::insertBenchmarkCase(testAbstract *testCase)
     benchmarks.push_back(testCase);
 }
 
-void testManager::runAllTests() const
+bool testManager::runAllTests() const
 {
-    for (auto test : tests)
+    bool ok = true;
+    for (auto &test : tests)
     {
-        test->run();
+        ok &= test->run();
     }
+    return ok;
 }
 
 void testManager::runAllBenchmarks() const
 {
-    printf("%10s/%20s %9s %12s %12s %12s %12s %12s\n", "suite name",
-           "test name", "samples", "mean", "median", "q0.5", "q0.9", "q0.99");
-    for (auto benchmark : benchmarks)
+    printf("%10s/%-20s %9s %12s %12s %12s %12s %12s %12s\n", "suite name",
+           "test name", "samples", "mean", "median", "q0.5", "q0.9", "q0.99", "total time");
+    fflush(stdout);
+    for (auto &benchmark : benchmarks)
     {
         benchmark->run();
     }

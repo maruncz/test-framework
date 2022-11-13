@@ -3,14 +3,14 @@
 
 #include "benchmarkbase.h"
 
-template<typename T> class testWithParam : public benchmarkBase
+template<typename T>
+class testWithParam : public benchmarkBase
 {
 public:
     testWithParam(const std::string &inTestSuite, const std::string &inTestCase,
                   const T &param)
         : benchmarkBase(inTestSuite, inTestCase), param(param)
-    {
-    }
+    {}
 
     const T &getParam() { return param; }
 
@@ -29,14 +29,13 @@ private:
             const std::string &inTestSuite, const std::string &inTestCase, \
             const typename fixture_name::paramType &inParam)               \
             : fixture_name(inTestSuite, inTestCase, inParam)               \
-        {                                                                  \
-        }                                                                  \
+        {}                                                                 \
                                                                            \
         void runBenchmark() override;                                      \
     };                                                                     \
                                                                            \
-    inline void benchmarkFixture##_##test_suite_name##_##test_case_name::  \
-        runBenchmark()
+    inline void                                                            \
+        benchmarkFixture##_##test_suite_name##_##test_case_name::runBenchmark()
 
 #define INSTANTIATE_TEMPLATE(fixture_name, test_suite_name, test_case_name, \
                              param)                                         \

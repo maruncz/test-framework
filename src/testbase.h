@@ -2,6 +2,7 @@
 #define TESTBASE_H
 
 #include "testabstract.h"
+#include "testmanager.h"
 #include <cstdio>
 #include <map>
 #include <string>
@@ -14,16 +15,16 @@ public:
     {
     public:
         explicit result(bool inOk, const std::string &inMsg = std::string())
-            : ok(inOk), msg(inMsg)
+            : msg(inMsg), ok(inOk)
         {
         }
 
-        [[nodiscard]] bool getOk() const { return ok; }
-        [[nodiscard]] const std::string &getMsg() const { return msg; }
+        bool getOk() const { return ok; }
+        const std::string &getMsg() const { return msg; }
 
     private:
-        const bool ok;
         const std::string msg;
+        const bool ok;
     };
 
     testBase(const std::string &inTestSuite, const std::string &inTestCase)
@@ -34,7 +35,7 @@ public:
 
     ~testBase() override = default;
 
-    void run() override
+    bool run() override
     {
         printf("[%s, %s] running\n", getTestSuite().c_str(),
                getTestCase().c_str());
@@ -48,9 +49,11 @@ public:
         {
             printf("failed: %s\n", result.getMsg().c_str());
         }
+        fflush(stdout);
+        return result.getOk();
     }
 
-    [[nodiscard]] virtual result runTestCase() const = 0;
+    virtual result runTestCase() const = 0;
 };
 
 #endif // TESTBASE_H
