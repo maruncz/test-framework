@@ -60,7 +60,22 @@ BENCHMARK(exp, float_std)
 
 #### Benchmark with fixture
 
-...
+```
+#include <benchmarkfixture.h>
+class benchmark_TF : public benchmarkBase
+{
+    using benchmarkBase::benchmarkBase;
+
+protected:
+    void setUp() override { std::cout << "setup" << std::endl; }
+    void tearDown() override { std::cout << "teardown" << std::endl; }
+};
+
+BENCHMARK_F(benchmark_TF, bench, benchF)
+{
+    std::this_thread::sleep_for(std::chrono::seconds(1));
+}
+```
 
 #### Templated benchmark
 
