@@ -82,7 +82,7 @@ public:
             }
         } while (true);
         tearDown();
-        printf("%10s/%20s %9u %12e %12e %12e %12e %12e %12e\n",
+        printf("%10s/%-20s %9u %12e %12e %12e %12e %12e %12g\n",
                getTestSuite().c_str(), getTestCase().c_str(),
                stats.getSamples(), stats.getMean(), stats.getMedian(),
                stats.quantile(0.5), stats.quantile(0.9), stats.quantile(0.99),
