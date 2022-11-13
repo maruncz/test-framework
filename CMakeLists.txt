@@ -14,12 +14,3 @@ add_subdirectory(src)
 if(${TEST_FW_BUILD_TESTS})
     add_subdirectory(tests)
 endif()
-
-if(${TEST_FW_BUILD_DEV_BINARIES})
-    set(SRCS
-        main.cpp
-        test.cpp)
-
-    add_executable(benchmark-test ${SRCS})
-    target_link_libraries(benchmark-test PRIVATE test-fw-tests test-fw-benchmark)
-endif()
