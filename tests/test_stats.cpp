@@ -58,13 +58,13 @@ TEST(stats, random)
 
         double q09 = samples.at(samples.size() * 0.9);
 
-        //auto median_stat = stats.getMedian();
-        //ASSERT_NEAR(median, median_stat, median * 2e-2);
-        std::cout << sample << '\t' << stats.getMean() << "\t"
-                  << stats.getMedian() << '\t' << stats.getVariance() << "\t"
-                  << stats.quantile(0.5) << "\t" << stats.quantile(0.9) << "\t"
-                  << stats.quantile(0.99) << "\t\t" << mean << '\t' << median
-                  << '\t' << variance << "\t\t" << q09 << '\n';
+        auto median_stat = stats.getMedian();
+        ASSERT_NEAR(median, median_stat, median * 2e-2);
+//        std::cout << sample << '\t' << stats.getMean() << "\t"
+//                  << stats.getMedian() << '\t' << stats.getVariance() << "\t"
+//                  << stats.quantile(0.5) << "\t" << stats.quantile(0.9) << "\t"
+//                  << stats.quantile(0.99) << "\t\t" << mean << '\t' << median
+//                  << '\t' << variance << "\t\t" << q09 << '\n';
     }
     //stats.printHist();
     /*for(auto e : samples)
