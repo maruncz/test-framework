@@ -15,8 +15,8 @@ void onlineStatistic::addSample(double sample)
     else
     {
         auto prevMean = mean;
-        mean = mean + (sample - mean) / samples;
-        M2n = M2n + (sample - prevMean) * (sample - mean);
+        mean          = mean + (sample - mean) / samples;
+        M2n           = M2n + (sample - prevMean) * (sample - mean);
     }
 }
 
@@ -66,16 +66,16 @@ double onlineStatistic::getMedian() const
         sum_samples = nextSumOfSamples;
     }*/
 
-    size_t sum_samples = 0;
+    uint32_t sum_samples = 0;
     for (auto it = hist.begin(); it != hist.end(); ++it)
     {
-        size_t nextSumOfSamples = sum_samples + it->second;
+        uint32_t nextSumOfSamples = sum_samples + it->second;
         if (nextSumOfSamples > samples / 2)
         {
             auto prev = it;
             --prev;
             return linearInterpolation(sum_samples, nextSumOfSamples,
-                                       prev->first, it->first, samples / 2);
+                                       prev->first, it->first, samples / 2.0);
         }
         sum_samples = nextSumOfSamples;
     }
@@ -85,11 +85,11 @@ double onlineStatistic::getMedian() const
 
 double onlineStatistic::quantile(double value) const
 {
-    double point = (double(samples) * value);
-    size_t sum_samples = 0;
+    double point         = (static_cast<double>(samples) * value);
+    uint32_t sum_samples = 0;
     for (auto it = hist.begin(); it != hist.end(); ++it)
     {
-        size_t nextSumOfSamples = sum_samples + it->second;
+        uint32_t nextSumOfSamples = sum_samples + it->second;
         if (nextSumOfSamples > point)
         {
             auto prev = it;
@@ -112,13 +112,8 @@ void onlineStatistic::printHist() const
 
 double onlineStatistic::roundToDigits(double value, uint8_t digits)
 {
-    if (value == 0)
-    {
-        return 0;
-    }
-
-    double factor = std::pow(10.0,
-                             digits - std::ceil(std::log10(std::abs(value))));
+    double factor =
+        std::pow(10.0, digits - std::ceil(std::log10(std::abs(value))));
     return std::round(value * factor) / factor;
 }
 

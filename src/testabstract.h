@@ -11,14 +11,15 @@ class testAbstract
 public:
     testAbstract(const std::string &inTestSuite, const std::string &inTestCase)
         : testSuite(inTestSuite), testCase(inTestCase)
-    {}
+    {
+    }
 
     virtual ~testAbstract() = default;
 
     virtual bool run() = 0;
 
-    [[nodiscard]] const std::string &getTestSuite() const { return testSuite; }
-    [[nodiscard]] const std::string &getTestCase() const { return testCase; }
+    const std::string &getTestSuite() const { return testSuite; }
+    const std::string &getTestCase() const { return testCase; }
 
 private:
     const std::string testSuite;

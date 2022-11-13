@@ -15,16 +15,16 @@ public:
     {
     public:
         explicit result(bool inOk, const std::string &inMsg = std::string())
-            : ok(inOk), msg(inMsg)
+            : msg(inMsg), ok(inOk)
         {
         }
 
-        [[nodiscard]] bool getOk() const { return ok; }
-        [[nodiscard]] const std::string &getMsg() const { return msg; }
+        bool getOk() const { return ok; }
+        const std::string &getMsg() const { return msg; }
 
     private:
-        const bool ok;
         const std::string msg;
+        const bool ok;
     };
 
     testBase(const std::string &inTestSuite, const std::string &inTestCase)
@@ -53,7 +53,7 @@ public:
         return result.getOk();
     }
 
-    [[nodiscard]] virtual result runTestCase() const = 0;
+    virtual result runTestCase() const = 0;
 };
 
 #endif // TESTBASE_H

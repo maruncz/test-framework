@@ -1,6 +1,6 @@
 #include "testmanager.h"
 
-int main(int argc, char *argv[])
+int main()
 {
     testManager::getInstance().runAllBenchmarks();
     return 0;

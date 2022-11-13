@@ -9,10 +9,11 @@
     {                                                                       \
     public:                                                                 \
         testCaseBasic##_##test_suite_name##_##test_case_name(               \
-            std::string inTestSuite, std::string inTestCase)                \
-            : testBase(std::move(inTestSuite), std::move(inTestCase))       \
-        {}                                                                  \
-        [[nodiscard]] testBase::result runTestCase() const override;        \
+            const std::string &inTestSuite, const std::string &inTestCase)  \
+            : testBase(inTestSuite, inTestCase)                             \
+        {                                                                   \
+        }                                                                   \
+        testBase::result runTestCase() const override;                      \
     };                                                                      \
                                                                             \
     testCaseBasic##_##test_suite_name##_##test_case_name                    \
